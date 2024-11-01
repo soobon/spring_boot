@@ -27,7 +27,7 @@ public class AuthController {
     private UserDetailsService userDetailsService;
     private JwtService jwtService;
 
-    @PostMapping("/authenticate")
+    @PostMapping
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest request
             ){
@@ -38,6 +38,7 @@ public class AuthController {
         if (user != null){
             Map<String, Object> extraClaims = new HashMap<>();
             extraClaims.put("authorities", user.getAuthorities());
+
             return ResponseEntity.ok(jwtService.generateToken(extraClaims,user));
         }
         return ResponseEntity.status(400).body("Error");
